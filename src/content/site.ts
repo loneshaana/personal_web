@@ -1,5 +1,23 @@
 import type { SiteConfig } from "./types";
 
+/**
+ * Canonical origin, resolved at build time.
+ *
+ * 1. NEXT_PUBLIC_SITE_URL      — set this once you attach a custom domain.
+ * 2. VERCEL_PROJECT_PRODUCTION_URL — injected by Vercel automatically, so the
+ *    first deploy gets correct canonical/OG/sitemap URLs with no config.
+ * 3. localhost                 — local development.
+ */
+function resolveSiteUrl(): string {
+  const explicit = process.env.NEXT_PUBLIC_SITE_URL;
+  if (explicit) return explicit.replace(/\/$/, "");
+
+  const vercel = process.env.VERCEL_PROJECT_PRODUCTION_URL;
+  if (vercel) return `https://${vercel}`;
+
+  return "http://localhost:3000";
+}
+
 export const site: SiteConfig = {
   name: "Anwar ul Haq",
   role: "Senior Software Engineer",
@@ -9,13 +27,13 @@ export const site: SiteConfig = {
   location: "India",
   email: "anwarulhaq2017@outlook.com",
   resumeHref: "/AnwarUlHaq-Resume.pdf",
-  siteUrl: "https://anwarulhaq.dev",
+  siteUrl: resolveSiteUrl(),
 
   about: [
     "I'm a software engineer with 8 years of experience designing and running backend platforms that other engineers depend on. Most of my work lives in the unglamorous, high-stakes layer: orchestration services, provisioning pipelines, signing infrastructure, and the automation that keeps them safe to change.",
-    "Today I'm a Senior Software Engineer 2 at Microsoft, where I led the migration of Windows driver signing workflows onto a centralized Azure platform that processes submissions from OEMs and IHVs including Intel, AMD, NVIDIA, Dell, HP, and Qualcomm. Much of that work was about earning confidence — shadow validation, regression detection, and end-to-end coverage so a mission-critical system could change without fear.",
-    "Before Microsoft I built host provisioning and lifecycle orchestration at Goldman Sachs, and a real-time competitive intelligence platform at Traveloka. Lately I've been building AI systems — RAG pipelines and agents with Semantic Kernel — that take real operational toil off engineers' plates.",
-    "Outside of shipping, I mentor engineers, run design reviews, and occasionally win a hackathon.",
+    "Today I'm a Senior Software Engineer at Microsoft, where I led the migration of Windows driver signing workflows onto a centralized Azure platform that processes submissions from OEMs and IHVs including Intel, AMD, NVIDIA, Dell, HP, and Qualcomm. Much of that work was about earning confidence — shadow validation, regression detection, and end-to-end coverage so a mission-critical system could change without fear.",
+    "Before Microsoft I built host provisioning and lifecycle orchestration at Goldman Sachs, and a real-time competitive intelligence platform at Traveloka. Lately I've been building AI systems — RAG pipelines and agents — that take real operational toil off engineers' plates.",
+    "Outside of shipping, I mentor engineers, run design reviews..",
   ],
 
   socials: [

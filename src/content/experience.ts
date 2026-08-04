@@ -6,7 +6,7 @@ import type { Experience } from "./types";
 export const experience: Experience[] = [
   {
     company: "Microsoft",
-    title: "Senior Software Engineer 2",
+    title: "Software Engineer",
     start: "Aug 2022",
     end: "Present",
     href: "https://www.microsoft.com",
@@ -15,7 +15,7 @@ export const experience: Experience[] = [
       "Built automated shadow-validation and regression-detection systems that enabled safe rollout of mission-critical signing infrastructure.",
       "Designed and implemented an AI-powered agent that auto-triages driver submission requests and generates summaries in Azure Workbooks, cutting manual investigation time by several hours per request.",
       "Built an end-to-end automated test suite covering driver signing and publishing workflows, validating production deployment artifacts pre-release for high-confidence, low-regression deployments.",
-      "Mentored engineers and drove technical planning, design reviews, and execution of strategic platform initiatives.",
+      "Mentored interns and drove technical designs, design reviews, and execution of strategic platform initiatives.",
     ],
     stack: ["C#", ".NET", "Azure", "Semantic Kernel", "CosmosDB", "CI/CD"],
   },

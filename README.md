@@ -79,8 +79,16 @@ across `src/components/`, and update the RGB in `src/components/Spotlight.tsx`.
 
 ## Before you deploy
 
-Update `site.siteUrl` in `src/content/site.ts` to the real domain. It drives
-canonical URLs, Open Graph tags, `robots.txt`, and `sitemap.xml`.
+Nothing is required — the canonical URL resolves itself:
+
+1. `NEXT_PUBLIC_SITE_URL` if set (use this once you attach a custom domain)
+2. `VERCEL_PROJECT_PRODUCTION_URL`, which Vercel injects automatically
+3. `http://localhost:3000` locally
+
+So the first deploy already emits correct canonical, Open Graph, `sitemap.xml`
+and `robots.txt` URLs with zero configuration. When you point a real domain at
+the project, set `NEXT_PUBLIC_SITE_URL=https://yourdomain.com` in the Vercel
+project's environment variables and redeploy.
 
 ---
 
@@ -95,8 +103,20 @@ npm run lint    # eslint
 
 ## Deploy
 
-Push to GitHub and import the repo at [vercel.com/new](https://vercel.com/new).
-No environment variables, no configuration — every route is static.
+Either path works — the project is zero-config on Vercel.
+
+**Git integration (recommended).** Push this repo to GitHub, then import it at
+[vercel.com/new](https://vercel.com/new). Every push to `main` redeploys.
+
+**Vercel CLI.**
+
+```bash
+npx vercel login     # one-time; opens a browser to authorize
+npx vercel --prod
+```
+
+Accept the detected defaults (framework: Next.js, build: `npm run build`).
+No environment variables are needed for the first deploy.
 
 ---
 
