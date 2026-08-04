@@ -33,7 +33,7 @@ export const site: SiteConfig = {
     "I'm a software engineer with 8 years of experience designing and running backend platforms that other engineers depend on. Most of my work lives in the unglamorous, high-stakes layer: orchestration services, provisioning pipelines, signing infrastructure, and the automation that keeps them safe to change.",
     "Today I'm a Senior Software Engineer at Microsoft, where I led the migration of Windows driver signing workflows onto a centralized Azure platform that processes submissions from OEMs and IHVs including Intel, AMD, NVIDIA, Dell, HP, and Qualcomm. Much of that work was about earning confidence — shadow validation, regression detection, and end-to-end coverage so a mission-critical system could change without fear.",
     "Before Microsoft I built host provisioning and lifecycle orchestration at Goldman Sachs, and a real-time competitive intelligence platform at Traveloka. Lately I've been building AI systems — RAG pipelines and agents — that take real operational toil off engineers' plates.",
-    "Outside of shipping, I mentor engineers, run design reviews..",
+    "Outside of shipping, I mentor engineers and run design reviews.",
   ],
 
   socials: [
