@@ -97,6 +97,8 @@ override before local development, or update it for the new site.
 
 ## Commands
 
+Use Node.js 24 LTS and its bundled npm, matching the deployment workflow.
+
 ```bash
 npm run dev     # dev server at http://localhost:3000
 npm run build   # export the production site to out/
