@@ -13,7 +13,7 @@ export function Footer() {
         </a>
       </p>
       <p className="mt-4">
-        Built with Next.js and Tailwind CSS, deployed on Vercel. Design inspired
+        Built with Next.js and Tailwind CSS, hosted on GitHub Pages. Design inspired
         by{" "}
         <a
           href="https://brittanychiang.com"

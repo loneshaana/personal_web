@@ -3,7 +3,7 @@
 Personal portfolio for **Anwar ul Haq** — Senior Software Engineer at Microsoft.
 
 Built with Next.js (App Router), TypeScript, and Tailwind CSS. Statically
-rendered, zero runtime data fetching, deploys anywhere that runs Next.
+exported, zero runtime data fetching, hosted on GitHub Pages without a Node.js server.
 
 ---
 
@@ -68,7 +68,8 @@ listed in `navItems`.
 ### Replace the résumé
 
 Drop the new PDF at `public/AnwarUlHaq-Resume.pdf` (keep the filename), or point
-`site.resumeHref` somewhere else.
+`site.resumeHref` somewhere else. Local public-file URLs must retain the
+`${basePath}` prefix so they work under a GitHub Pages repository subpath.
 
 ### Change the accent colour
 
@@ -77,18 +78,20 @@ across `src/components/`, and update the RGB in `src/components/Spotlight.tsx`.
 
 ---
 
-## Before you deploy
+## Deployment URLs
 
-Nothing is required — the canonical URL resolves itself:
+The GitHub Pages workflow reads the site's URL from GitHub and supplies these
+build-time variables automatically; no repository secrets are needed:
 
-1. `NEXT_PUBLIC_SITE_URL` if set (use this once you attach a custom domain)
-2. `VERCEL_PROJECT_PRODUCTION_URL`, which Vercel injects automatically
-3. `http://localhost:3000` locally
+| Variable | Example for a project site | Purpose |
+| --- | --- | --- |
+| `NEXT_PUBLIC_SITE_URL` | `https://USERNAME.github.io/REPOSITORY` | Full canonical, Open Graph, JSON-LD, sitemap, and robots URL |
+| `NEXT_PUBLIC_BASE_PATH` | `/REPOSITORY` | Prefix for scripts, styles, fonts, favicon, navigation, and the resume PDF |
 
-So the first deploy already emits correct canonical, Open Graph, `sitemap.xml`
-and `robots.txt` URLs with zero configuration. When you point a real domain at
-the project, set `NEXT_PUBLIC_SITE_URL=https://yourdomain.com` in the Vercel
-project's environment variables and redeploy.
+User sites (`USERNAME.github.io`) and custom domains use an empty base path.
+Locally, the defaults are `http://localhost:3000` and an empty base path.
+If you have an old `.env.local`, remove any Vercel-era `NEXT_PUBLIC_SITE_URL`
+override before local development, or update it for the new site.
 
 ---
 
@@ -96,27 +99,55 @@ project's environment variables and redeploy.
 
 ```bash
 npm run dev     # dev server at http://localhost:3000
-npm run build   # production build
-npm run start   # serve the production build
+npm run build   # export the production site to out/
 npm run lint    # eslint
 ```
 
-## Deploy
+The production output is static HTML, CSS, JavaScript, and public assets in
+`out/`. Preview it with any static file server; `next start` is not supported
+with static export. To reproduce a project-site build locally, set both URL
+variables above before running `npm run build`, and serve `out/` at that same
+base path.
 
-Either path works — the project is zero-config on Vercel.
+## Deploy to GitHub Pages
 
-**Git integration (recommended).** Push this repo to GitHub, then import it at
-[vercel.com/new](https://vercel.com/new). Every push to `main` redeploys.
+1. Create or choose a GitHub repository and push this project to its default
+   branch. Use a public repository on GitHub Free; private repositories need
+   a plan that supports GitHub Pages.
+2. In the repository, open **Settings > Pages > Build and deployment** and
+   select **GitHub Actions** as the source.
+3. Open **Actions > Deploy portfolio to GitHub Pages > Run workflow**, selecting
+   the default branch. Later pushes to the default branch deploy automatically
+   (whether it is named `main`, `master`, or something else).
+4. Open the published URL shown by the `github-pages` deployment or Settings >
+   Pages. A project repository normally publishes at
+   `https://USERNAME.github.io/REPOSITORY/`; a repository named
+   `USERNAME.github.io` publishes at `https://USERNAME.github.io/`.
 
-**Vercel CLI.**
+The workflow in `.github/workflows/deploy-pages.yml` installs locked dependencies,
+lints, exports the site, and publishes `out/` through GitHub's Pages deployment
+actions. No `gh-pages` branch or committed build output is needed.
 
-```bash
-npx vercel login     # one-time; opens a browser to authorize
-npx vercel --prod
-```
+### Moving an existing custom domain from Vercel
 
-Accept the detected defaults (framework: Next.js, build: `npm run build`).
-No environment variables are needed for the first deploy.
+First confirm the GitHub Pages site works at its default address. Then configure
+the domain in **Settings > Pages > Custom domain**, update the domain's DNS using
+[GitHub's custom-domain instructions](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site),
+and rerun the workflow so URLs and asset paths match the custom domain. Enable
+**Enforce HTTPS** once GitHub has provisioned its certificate.
+
+Keep the existing Vercel deployment until the new site and DNS are working.
+Then disconnect Vercel's automatic deployments or remove the old project if it
+is no longer needed. This repository change does not change DNS or delete the
+existing Vercel deployment.
+
+### Static hosting limitations
+
+GitHub Pages cannot run API routes, Server Actions, server-side rendering,
+Next.js image optimization, or custom HTTP response headers. Images are
+configured as unoptimized, and the former Next.js response-header configuration
+has been removed because Pages does not apply it. The portfolio does not need
+a runtime server; `robots.txt` and `sitemap.xml` are generated at build time.
 
 ---
 
